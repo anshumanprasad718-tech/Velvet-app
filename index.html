@@ -2,129 +2,164 @@
 <head>  
     <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>VelvetCash - Fixed Scanner</title>  
+    <title>VelvetCash - @ZEBRO_GAMING_0</title>  
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">  
     <style>  
         :root { --v-red: #e40000; --v-gray: #f4f7f9; }  
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }  
-        body { background: #000; display: flex; justify-content: center; min-height: 100vh; overflow-y: auto; }
-        .app-shell { width: 100%; max-width: 400px; min-height: 100vh; background: var(--v-gray); position: relative; display: flex; flex-direction: column; }  
+        body { background: #000; display: flex; justify-content: center; min-height: 100vh; overflow: hidden; }  .app-shell { width: 100%; max-width: 400px; height: 100vh; background: var(--v-gray); position: relative; display: flex; flex-direction: column; }  
 
-        /* SIDE MENU */  
-        #side-menu { position: fixed; left: -100%; top: 0; width: 75%; height: 100%; background: #fff; z-index: 5000; transition: 0.4s; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }  
-        #side-menu.open { left: 0; }  
-        .menu-header { background: var(--v-red); padding: 40px 20px; color: #fff; }  
-        .menu-item { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 14px; cursor: pointer; }  
-        .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 4000; display: none; }  
+    /* SIDE MENU */  
+    #side-menu { position: fixed; left: -100%; top: 0; width: 75%; height: 100%; background: #fff; z-index: 5000; transition: 0.4s; box-shadow: 10px 0 30px rgba(0,0,0,0.1); }  
+    #side-menu.open { left: 0; }  
+    .menu-header { background: var(--v-red); padding: 40px 20px; color: #fff; }  
+    .menu-item { padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 14px; cursor: pointer; }  
+    .overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 4000; display: none; }  
 
-        /* LOADER SCREEN */  
-        #loader-screen { position: absolute; inset: 0; background: rgba(255,255,255,0.9); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }  
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--v-red); border-radius: 50%; animation: spin 1s linear infinite; }  
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }  
+    /* LOADER SCREEN */  
+    #loader-screen { position: absolute; inset: 0; background: rgba(255,255,255,0.9); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }  
+    .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--v-red); border-radius: 50%; animation: spin 1s linear infinite; }  
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }  
 
-        /* LUXURY POPUP */  
-        #custom-popup { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; display: none; align-items: center; justify-content: center; }  
-        .popup-box { width: 85%; background: #fff; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }  
-        .popup-btn { background: var(--v-red); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; margin-top: 15px; cursor: pointer; }  
+    /* LUXURY POPUP */  
+    #custom-popup { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 10000; display: none; align-items: center; justify-content: center; }  
+    .popup-box { width: 85%; background: #fff; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }  
+    .popup-btn { background: var(--v-red); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: bold; margin-top: 15px; cursor: pointer; }  
 
-        /* HEADER */  
-        .header { padding: 15px 20px; display: flex; align-items: center; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }  
-        .brand { flex: 1; text-align: center; font-size: 18px; font-weight: 800; color: var(--v-red); letter-spacing: 1.5px; }  
+    /* HEADER */  
+    .header { padding: 15px 20px; display: flex; align-items: center; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }  
+    .brand { flex: 1; text-align: center; font-size: 18px; font-weight: 800; color: var(--v-red); letter-spacing: 1.5px; }  
 
-        /* CONTENT */  
-        .content-section { flex: 1; padding: 15px; overflow-y: auto; display: none; padding-bottom: 110px; }  
-        .content-section.active { display: block; }  
+    /* CONTENT */  
+    .content-section { flex: 1; padding: 15px; overflow-y: auto; display: none; padding-bottom: 110px; }  
+    .content-section.active { display: block; }  
 
-        .section-title { font-size: 11px; font-weight: bold; margin: 15px 0 10px; color: #666; text-transform: uppercase; border-left: 3px solid var(--v-red); padding-left: 8px; }  
-        .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }  
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }  
-        .btn-p { background: var(--v-red); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; transition: 0.2s; }  
-        .input-box { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; outline: none; }  
+    .section-title { font-size: 11px; font-weight: bold; margin: 15px 0 10px; color: #666; text-transform: uppercase; border-left: 3px solid var(--v-red); padding-left: 8px; }  
+    .card { background: #fff; border-radius: 15px; padding: 15px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }  
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }  
+    .btn-p { background: var(--v-red); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; width: 100%; cursor: pointer; transition: 0.2s; }  
+    .btn-p:active { transform: scale(0.95); }  
+    .input-box { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 10px; outline: none; }  
 
-        /* NAV BAR */  
-        .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 400px; background: #fff; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px 0 25px; }  
-        .nav-item { color: #aaa; text-align: center; font-size: 10px; flex: 1; cursor: pointer; }  
-        .nav-item.active { color: var(--v-red); }  
-        .nav-item span { font-size: 26px; display: block; }  
-    </style>
+    /* NAV BAR */  
+    .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 400px; background: #fff; border-top: 1px solid #eee; display: flex; justify-content: space-around; padding: 10px 0 25px; }  
+    .nav-item { color: #aaa; text-align: center; font-size: 10px; flex: 1; cursor: pointer; }  
+    .nav-item.active { color: var(--v-red); }  
+    .nav-item span { font-size: 26px; display: block; }  
+</style>
+
 </head>  
-<body>  
-<div class="app-shell">  
+<body>  <div class="app-shell">  
     <input type="file" id="gallery-input" accept="image/*" style="display:none;" onchange="handleGallery(this)">
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>  
-    <div id="loader-screen"><div class="spinner"></div><p style="margin-top:10px; color:var(--v-red);">Processing...</p></div>  
-    
-    <div id="side-menu">  
-        <div class="menu-header"><h3>Anshuman</h3><small>VelvetCash Master</small></div>  
-        <div class="menu-item" onclick="window.open('https://youtube.com/@ZEBRO_GAMING_0')"><span class="material-icons-outlined">play_circle_filled</span> Zebro Gaming TV</div>  
-        <div class="menu-item" onclick="openPopup('Support', 'Help Center No: 9136383257')"><span class="material-icons-outlined">headset_mic</span> Help Center</div>  
-        <div class="menu-item"><span class="material-icons-outlined">history</span> My Earnings</div>  
-        <div class="menu-item" style="margin-top:auto; color:red;"><span class="material-icons-outlined">power_settings_new</span> Logout</div>  
+    <div id="loader-screen"><div class="spinner"></div><p style="margin-top:10px; color:var(--v-red);">Processing...</p></div>  <div id="side-menu">  
+    <div class="menu-header"><h3>Anshuman</h3><small>VelvetCash Master</small></div>  
+    <div class="menu-item" onclick="window.open('https://youtube.com/@ZEBRO_GAMING_0')"><span class="material-icons-outlined">play_circle_filled</span> Zebro Gaming TV</div>  
+    <div class="menu-item" onclick="openPopup('Support', 'Help Center No: 9136383257')"><span class="material-icons-outlined">headset_mic</span> Help Center</div>  
+    <div class="menu-item"><span class="material-icons-outlined">history</span> My Earnings</div>  
+    <div class="menu-item" style="margin-top:auto; color:red;"><span class="material-icons-outlined">power_settings_new</span> Logout</div>  
+</div>  
+
+<div id="custom-popup">  
+    <div class="popup-box">  
+        <h3 id="pop-title">Notice</h3>  
+        <p id="pop-msg" style="color:#666; font-size:14px; margin-top:10px;"></p>  
+        <button class="popup-btn" onclick="closePopup()">OK</button>  
+    </div>  
+</div>  
+
+<div class="header">  
+    <span class="material-icons-outlined" onclick="toggleMenu()" style="cursor:pointer">menu</span>  
+    <div class="brand">VELVETCASH</div>  
+    <span class="material-icons-outlined" onclick="openPopup('Latest Offers', '1. ₹10 Thumbnail Job\n2. ₹20 Video Job\n3. Spin Wheel Coming Soon!')" style="cursor:pointer">notifications_active</span>  
+</div>  
+
+<div id="home" class="content-section active">  
+    <div class="section-title">Your Progress</div>  
+    <div class="grid-2">  
+        <div class="card">Tasks<b>0</b></div>  
+        <div class="card">Wallet<b>₹0.00</b></div>  
+        <div class="card">Gigs<b>0</b></div>  
+        <div class="card">Rank<b>#0</b></div>  
+    </div>  
+    <div class="section-title">Quick Earnings</div>  
+    <div class="card" onclick="showS('earn')"><b>Thumbnail Gig</b><br><small style="color:red;">Earn ₹10 Now →</small></div>  
+    <div class="card" onclick="showS('earn')"><b>Video Edit Gig</b><br><small style="color:red;">Earn ₹20 Now →</small></div>  
+</div>  
+
+<div id="scan" class="content-section">  
+    <div class="section-title">Scanner</div>  
+    <div id="scanner-container" style="width:100%; height:320px; background:#000; border-radius:25px; display:flex; align-items:center; justify-content:center; border: 4px solid #fff; position:relative; overflow:hidden;">  
+        <span id="qr-icon" class="material-icons-outlined" style="font-size:80px; color:var(--v-red);">qr_code_2</span>  
+        <video id="camera-video" autoplay playsinline style="width:100%; height:100%; object-fit:cover; display:none; position:absolute;"></video>
+    </div>  
+    <div class="grid-2" style="margin-top:20px;">  
+        <button class="btn-p" onclick="openCamera()">OPEN CAMERA</button>  
+        <button class="btn-p" style="background:#333;" onclick="openGallery()">GALLERY</button>  
+    </div>  
+</div>  
+
+<div id="earn" class="content-section">  
+    <div class="section-title">Creator Gigs</div>  
+    <div class="card">  
+        <b>Thumbnail Design (₹10)</b><br>  
+        <small onclick="window.open('https://youtu.be/5QQTw9RHPag')" style="color:blue; text-decoration:underline; cursor:pointer;">Watch Tutorial</small>  
+        <button class="btn-p" style="margin-top:10px;" onclick="openPopup('Notice', 'Download the Editor App to start this gig.')">DOWNLOAD APP</button>  
+    </div>  
+    <div class="card">  
+        <b>Video Editing (₹20)</b><br>  
+        <small onclick="window.open('https://youtu.be/Ta4nyu0ok')" style="color:blue; text-decoration:underline; cursor:pointer;">Watch Tutorial</small>  
+        <button class="btn-p" style="margin-top:10px;" onclick="openPopup('Notice', 'Download the Video Engine to start this gig.')">DOWNLOAD APP</button>  
     </div>  
 
-    <div id="custom-popup">  
-        <div class="popup-box">  
-            <h3 id="pop-title">Notice</h3>  
-            <p id="pop-msg" style="color:#666; font-size:14px; margin-top:10px;"></p>  
-            <button class="popup-btn" onclick="closePopup()">OK</button>  
-        </div>  
+    <div class="section-title">Play & Earn</div>  
+    <div class="grid-2">  
+        <div class="card" style="text-align:center;">🏃 Subway<button class="btn-p" style="padding:4px; margin-top:5px;" onclick="openPopup('Download Required', 'Please download the game engine to play Subway.')">PLAY</button></div>  
+        <div class="card" style="text-align:center;">🎱 Carrom<button class="btn-p" style="padding:4px; margin-top:5px;" onclick="openPopup('Download Required', 'Please download the game engine to play Carrom.')">PLAY</button></div>  
+        <div class="card" style="text-align:center;">🧩 Ludo<button class="btn-p" style="padding:4px; margin-top:5px;" onclick="openPopup('Download Required', 'Please download the game engine to play Ludo.')">PLAY</button></div>  
+        <div class="card" style="text-align:center;">🏎️ Nitro<button class="btn-p" style="padding:4px; margin-top:5px;" onclick="openPopup('Download Required', 'Please download the game engine to play Nitro.')">PLAY</button></div>  
+        <div class="card" style="text-align:center;">🐍 Snake<button class="btn-p" style="padding:4px; margin-top:5px;" onclick="openPopup('Download Required', 'Please download the game engine to play Snake.')">PLAY</button></div>  
+        <div class="card" style="text-align:center;">🎯 Darts<button class="btn-p" style="padding:4px; margin-top:5px;" onclick="openPopup('Download Required', 'Please download the game engine to play Darts.')">PLAY</button></div>  
     </div>  
+</div>  
 
-    <div class="header">  
-        <span class="material-icons-outlined" onclick="toggleMenu()" style="cursor:pointer">menu</span>  
-        <div class="brand">VELVETCASH</div>  
-        <span class="material-icons-outlined" onclick="openPopup('Latest Offers', 'Notification Test')" style="cursor:pointer">notifications_active</span>  
+<div id="wallet" class="content-section">  
+    <div class="card" style="background:var(--v-red); color:#fff; text-align:center; padding:30px;">  
+        <small>Earnings</small><h1>₹0.00</h1>  
     </div>  
-
-    <div id="home" class="content-section active">  
-        <div class="section-title">Your Progress</div>  
-        <div class="grid-2">  
-            <div class="card">Tasks<b>0</b></div>  
-            <div class="card">Wallet<b>₹0.00</b></div>  
-            <div class="card">Gigs<b>0</b></div>  
-            <div class="card">Rank<b>#0</b></div>  
-        </div>  
+    <div class="section-title">Save Payment Info</div>  
+    <div class="card">  
+        <input type="text" class="input-box" id="upi" placeholder="Enter UPI ID">  
+        <button class="btn-p" onclick="saveData('UPI ID')">SAVE UPI</button>  
     </div>  
+    <div class="card">  
+        <input type="text" class="input-box" placeholder="Account Number">  
+        <input type="text" class="input-box" placeholder="IFSC Code">  
+        <button class="btn-p" onclick="saveData('Bank Details')">SAVE BANK DETAIL</button>  
+    </div>  
+</div>  
 
-    <div id="scan" class="content-section">  
-        <div class="section-title">Scanner</div>  
-        <div id="scanner-box" style="width:100%; height:320px; background:#000; border-radius:25px; display:flex; align-items:center; justify-content:center; border: 4px solid #fff; position:relative; overflow:hidden;">  
-            <span id="qr-icon" class="material-icons-outlined" style="font-size:80px; color:var(--v-red);">qr_code_2</span>  
-            <video id="camera-video" autoplay playsinline style="width:100%; height:100%; object-fit:cover; display:none; position:absolute;"></video>
-        </div>  
-        <div class="grid-2" style="margin-top:20px;">  
-            <button class="btn-p" onclick="openCamera()">OPEN CAMERA</button>  
-            <button class="btn-p" style="background:#333;" onclick="openGallery()">GALLERY</button>  
-        </div>  
-    </div>
+<div id="account" class="content-section">  
+    <div class="card" style="display:flex; align-items:center; gap:15px; border-left:5px solid red;">  
+        <div style="width:50px; height:50px; background:#eee; border-radius:50%; display:flex; align-items:center; justify-content:center; color:red; font-weight:bold;">A</div>  
+        <div><b>Anshuman</b><br><small>VC-Member 8829</small></div>  
+    </div>  
+    <div class="section-title">Profile Info</div>  
+    <div class="card">Help No <span style="float:right;">9136383257</span></div>  
+    <div class="card">KYC <span style="float:right; color:orange;">Pending</span></div>  
+    <div class="card">Version <span style="float:right;">29.0 Stable</span></div>  
+</div>  
 
-    <div id="wallet" class="content-section">
-        <div class="section-title">My Wallet</div>
-        <div class="card">Balance: ₹0.00</div>
-    </div>
-
-    <div id="account" class="content-section">
-        <div class="section-title">Profile</div>
-        <div class="card">Anshuman (VelvetCash Master)</div>
-    </div>
-
-    <div id="earn" class="content-section">
-        <div class="section-title">Creator Gigs</div>
-        <div class="card">No active gigs right now.</div>
-    </div>
-
-    <div class="nav-bar">  
-        <div class="nav-item active" onclick="showS('home', this)"><span class="material-icons-outlined">home</span>Home</div>  
-        <div class="nav-item" onclick="showS('account', this)"><span class="material-icons-outlined">person</span>Account</div>  
-        <div class="nav-item" onclick="showS('scan', this)"><span class="material-icons-outlined">qr_code_scanner</span>Scan</div>  
-        <div class="nav-item" onclick="showS('earn', this)"><span class="material-icons-outlined">emoji_events</span>Earn</div>  
-        <div class="nav-item" onclick="showS('wallet', this)"><span class="material-icons-outlined">wallet</span>Wallet</div>  
-    </div>
+<div class="nav-bar">  
+    <div class="nav-item active" onclick="showS('home', this)"><span class="material-icons-outlined">home</span>Home</div>  
+    <div class="nav-item" onclick="showS('account', this)"><span class="material-icons-outlined">person</span>Account</div>  
+    <div class="nav-item" onclick="showS('scan', this)"><span class="material-icons-outlined">qr_code_scanner</span>Scan</div>  
+    <div class="nav-item" onclick="showS('earn', this)"><span class="material-icons-outlined">emoji_events</span>Earn</div>  
+    <div class="nav-item" onclick="showS('wallet', this)"><span class="material-icons-outlined">wallet</span>Wallet</div>  
 </div>
 
-<script>  
-    // Side Menu Toggle
+</div>  <script>  
     function toggleMenu() {  
         const m = document.getElementById('side-menu');  
         const o = document.getElementById('overlay');  
@@ -132,15 +167,15 @@
         o.style.display = m.classList.contains('open') ? 'block' : 'none';  
     }  
 
-    // REAL CAMERA LOGIC
+    // ASLI CAMERA LOGIC
     async function openCamera() {
         const video = document.getElementById('camera-video');
         const icon = document.getElementById('qr-icon');
         document.getElementById('loader-screen').style.display = 'flex';
-
         try {
-            // Ye line "Allow/Deny" wala option browser me khol degi
-            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: "environment" } 
+            });
             video.srcObject = stream;
             video.style.display = "block"; 
             icon.style.display = "none";  
@@ -151,7 +186,7 @@
         }
     }
 
-    // GALLERY LOGIC
+    // ASLI GALLERY LOGIC
     function openGallery() {
         document.getElementById('gallery-input').click();
     }
@@ -161,30 +196,11 @@
             openPopup('Success', 'File: ' + input.files[0].name + ' selected!');
         }
     }
-
-    // NAVIGATION LOGIC
-    function showS(id, el) {  
-        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));  
-        document.getElementById(id).classList.add('active');  
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));  
-        if(el) el.classList.add('active');  
-        if(document.getElementById('side-menu').classList.contains('open')) toggleMenu();  
-
-        // Agar dusre page pe gaye, to camera off kardo
-        if(id !== 'scan') {
-            stopCamera();
-        }
-    }
-
-    function stopCamera() {
-        const video = document.getElementById('camera-video');
-        if(video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop());
-            video.style.display = "none";
-            document.getElementById('qr-icon').style.display = "block";
-        }
-    }
-
+  
+    function saveData(type) {  
+        openPopup('Success', `${type} saved successfully in VelvetCash!`);  
+    }  
+  
     function openPopup(title, msg) {  
         document.getElementById('pop-title').innerText = title;  
         document.getElementById('pop-msg').innerText = msg;  
@@ -192,6 +208,42 @@
     }  
   
     function closePopup() { document.getElementById('custom-popup').style.display = 'none'; }  
-</script>  
-</body>  
+  
+    function showS(id, el) {  
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));  
+        document.getElementById(id).classList.add('active');  
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));  
+        if(el) el.classList.add('active');
+        if(document.getElementById('side-menu').classList.contains('open')) toggleMenu();  
+
+        // Jab Scan page se bahar jayein toh camera band kar do
+        if(id !== 'scan') {
+            const video = document.getElementById('camera-video');
+            if(video.srcObject) {
+                video.srcObject.getTracks().forEach(track => track.stop());
+                video.style.display = "none";
+                document.getElementById('qr-icon').style.display = "block";
+            }
+        }
+    }  
+</script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBpM49dskWJjGX3U4dFfDdOYuIH7ARSpjI",
+  authDomain: "velvetcash-20dcd.firebaseapp.com",
+  projectId: "velvetcash-20dcd",
+  storageBucket: "velvetcash-20dcd.firebasestorage.app",
+  messagingSenderId: "516982732731",
+  appId: "1:516982732731:web:76a8214e1cebaed6e4f69e",
+  measurementId: "G-JWZLQPS88F"
+};
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+console.log("Firebase Connected");
+</script>
+</body>
 </html>
