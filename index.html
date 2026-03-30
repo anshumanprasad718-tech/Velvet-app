@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VelvetCash</title>
 <style>
-/* Font internet se aayega */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', Arial, sans-serif; }
@@ -32,8 +31,8 @@ body {
 }
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-/* TERI ORIGINAL BUTTON STYLING WAPIS */
 .buttons-container { display: flex; flex-direction: column; gap: 12px; width: 90%; max-width: 400px; margin-bottom: 20px; }
+
 .btn {
   padding: 16px;
   border-radius: 12px;
@@ -45,8 +44,51 @@ body {
   border: none;
   box-shadow: 0 4px 15px rgba(34,197,94,0.2);
   transition: transform 0.1s ease;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 .btn:active { transform: scale(0.92); }
+
+/* --- INSTAGRAM FLOWING BUTTON --- */
+.btn-insta-flow {
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #e6683c, #f09433);
+  background-size: 400% 400%;
+  animation: instaFlow 8s infinite ease-in-out;
+  color: white;
+}
+@keyframes instaFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.insta-logo-svg { width: 22px; height: 22px; fill: white; }
+
+/* --- VIDEO CONTAINER WITH FLOWING BORDER --- */
+#videoWrapper {
+  display: none;
+  width: 90%;
+  max-width: 450px;
+  margin: 20px auto;
+  padding: 5px; /* Border ki thickness */
+  border-radius: 20px;
+  /* Flowing Border Design */
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+  background-size: 400% 400%;
+  animation: instaFlow 5s infinite linear;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Perfect 16:9 Display */
+  border-radius: 15px;
+  display: block;
+  background: black;
+}
 
 .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 90%; max-width: 400px; padding-bottom: 30px; }
 .feature-box { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(22,163,74,0.1); text-align: center; font-size: 13px; font-weight: 600; }
@@ -67,17 +109,29 @@ body {
 </div>
 
 <div class="launch-container">
-  <!-- AB YE TERI FOLDER WALI PHOTO UTHAYEGA -->
-  <div class="launch-container">
   <img src="launch.jpg" class="launch-img" alt="Launching 2027" onclick="showPopup('launch')">
 </div>
 
-</div>
-
 <div class="buttons-container">
+  <!-- Instagram Button -->
+  <a href="intent://instagram.com/_u/anshuman___8426/#Intent;package=com.instagram.android;scheme=https;end" class="btn btn-insta-flow">
+    <svg class="insta-logo-svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.583.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.073-4.948-.197-4.359-2.62-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+    <span>Follow on Instagram</span>
+  </a>
+
+  <!-- Video Button -->
+  <div class="btn" onclick="toggleVideo()">📺 Watch Intro Video</div>
+  
   <div class="btn" onclick="showPopup('about')">ℹ️ About App</div>
   <div class="btn" onclick="showPopup('features')">✨ Features</div>
   <div class="btn" onclick="showPopup('notify')">🔔 Notify Me</div>
+</div>
+
+<!-- Naya Video Section -->
+<div id="videoWrapper">
+  <video id="velvetVideo" class="video-frame" controls>
+    <source src="intro.mp4" type="video/mp4">
+  </video>
 </div>
 
 <div class="features-grid">
@@ -89,16 +143,28 @@ body {
 
 <div class="footer">© 2026 VelvetCash. All rights reserved.</div>
 
-<div class="popup" id="popup"><div class="popup-box" id="popupContent"></div></div>
+<div id="popup" class="popup"><div class="popup-box" id="popupContent"></div></div>
 
 <script>
+function toggleVideo() {
+  var wrapper = document.getElementById("videoWrapper");
+  var video = document.getElementById("velvetVideo");
+  if (wrapper.style.display === "none" || wrapper.style.display === "") {
+    wrapper.style.display = "block";
+    video.play();
+  } else {
+    wrapper.style.display = "none";
+    video.pause();
+  }
+}
+
 function showPopup(type) {
   const content = document.getElementById("popupContent");
   const modal = document.getElementById("popup");
-  if(type === 'launch') content.innerHTML = "<h3>🚀 Launching!</h3><p>You can earn money from this app</p><button onclick='closePopup()'>DONE</button>";
-  else if(type === 'about') content.innerHTML = "<h3>ℹ️ About</h3><p>This app is best for earning.</p><button onclick='closePopup()'>DONE</button>";
-  else if(type === 'features') content.innerHTML = "<h3>✨ Features</h3><p>Fast payments aur rewards.</p><button onclick='closePopup()'>DONE</button>";
-  else if(type === 'notify') content.innerHTML = "<h3>🔔 Notify</h3><p>The notification will be live comming soon</p><button onclick='closePopup()'>OK</button>";
+  if(type === 'launch') content.innerHTML = "<h3>🚀 Launching!</h3><p>VelvetCash 2027 me dhamaka karega!</p><button onclick='closePopup()'>Ok!</button>";
+  else if(type === 'about') content.innerHTML = "<h3>ℹ️ About</h3><p>Ye app earning ke liye best hai.</p><button onclick='closePopup()'>Theek Hai</button>";
+  else if(type === 'features') content.innerHTML = "<h3>✨ Features</h3><p>Fast payments aur rewards.</p><button onclick='closePopup()'>Ok</button>";
+  else if(type === 'notify') content.innerHTML = "<h3>🔔 Notify</h3><p>Notification jald chalu honge.</p><button onclick='closePopup()'>Done</button>";
   modal.style.display = "flex";
 }
 function closePopup() { document.getElementById("popup").style.display = "none"; }
