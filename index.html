@@ -16,6 +16,8 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 .hero { text-align: center; padding: 40px 20px 10px; }
@@ -29,9 +31,19 @@ body {
   box-shadow: 0 10px 30px rgba(22,163,74,0.3);
   animation: float 2.5s infinite ease-in-out;
 }
-@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-.buttons-container { display: flex; flex-direction: column; gap: 12px; width: 90%; max-width: 400px; margin-bottom: 20px; }
+.buttons-container { display: flex; flex-direction: column; gap: 15px; width: 90%; max-width: 400px; margin-bottom: 20px; padding: 10px; }
+
+/* --- SUPER SMOOTH SCROLL ANIMATION CSS --- */
+.reveal { 
+  opacity: 0; 
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, opacity;
+}
+.reveal-left { transform: translateX(-60px); }
+.reveal-right { transform: translateX(60px); }
+.reveal.active { opacity: 1; transform: translateX(0); }
 
 .btn {
   padding: 16px;
@@ -42,103 +54,97 @@ body {
   text-align: center;
   cursor: pointer;
   border: none;
-  box-shadow: 0 4px 15px rgba(34,197,94,0.2);
-  transition: transform 0.1s ease;
+  box-shadow: 0 4px 15px rgba(34,197,94,0.15);
   text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
+  width: 100%;
 }
-.btn:active { transform: scale(0.92); }
+.btn:active { transform: scale(0.96); transition: 0.1s; }
 
-/* --- INSTAGRAM FLOWING BUTTON --- */
+.btn-gmail { background: white !important; color: #3c4043 !important; border: 1px solid #dadce0 !important; }
+.btn-whatsapp { background: #25D366 !important; color: white !important; }
+
 .btn-insta-flow {
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #e6683c, #f09433);
   background-size: 400% 400%;
   animation: instaFlow 8s infinite ease-in-out;
-  color: white;
+  color: white !important;
 }
-@keyframes instaFlow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+@keyframes instaFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-.insta-logo-svg { width: 22px; height: 22px; fill: white; }
+.insta-logo-svg, .wa-icon-svg { width: 22px; height: 22px; fill: white; }
+.gmail-icon-svg { width: 22px; }
 
-/* --- VIDEO CONTAINER WITH FLOWING BORDER --- */
-#videoWrapper {
-  display: none;
-  width: 90%;
-  max-width: 450px;
-  margin: 20px auto;
-  padding: 5px; /* Border ki thickness */
-  border-radius: 20px;
-  /* Flowing Border Design */
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  background-size: 400% 400%;
-  animation: instaFlow 5s infinite linear;
+.btn-video-dark { background: #1a1a1a !important; color: white !important; }
+
+#videoWrapper { display: none; width: 92%; max-width: 450px; margin: 20px auto; padding: 4px; border-radius: 20px; background: #000; position: relative; overflow: hidden; }
+.video-frame { width: 100%; aspect-ratio: 16/9; border-radius: 15px; display: block; position: relative; z-index: 1; background: black; }
+
+.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 90%; max-width: 400px; padding: 20px 0 40px; }
+.feature-box { background: white; padding: 20px 10px; border-radius: 15px; text-align: center; font-size: 13px; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid rgba(22,163,74,0.1); }
+
+/* --- POPUP CSS --- */
+.popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; padding: 15px; }
+.popup-box { 
+  background: white; 
+  padding: 25px; 
+  border-radius: 25px; 
+  width: 100%; 
+  max-width: 320px; 
+  text-align: center; 
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
+.popup h3 { color: #16a34a; margin-bottom: 10px; }
+.popup p { font-size: 14px; color: #444; line-height: 1.5; }
+.popup input { width: 100%; padding: 12px; margin-top: 15px; border-radius: 10px; border: 1px solid #ddd; outline: none; font-size: 16px; }
+.popup button { margin-top: 15px; padding: 12px 25px; background: #16a34a; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; }
+.close-link { display: inline-block; margin-top: 15px; color: #888; font-size: 13px; text-decoration: underline; cursor: pointer; }
 
-.video-frame {
-  width: 100%;
-  aspect-ratio: 16 / 9; /* Perfect 16:9 Display */
-  border-radius: 15px;
-  display: block;
-  background: black;
-}
-
-.features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 90%; max-width: 400px; padding-bottom: 30px; }
-.feature-box { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 5px 15px rgba(22,163,74,0.1); text-align: center; font-size: 13px; font-weight: 600; }
-
-.popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
-.popup-box { background: white; padding: 30px; border-radius: 20px; width: 80%; max-width: 320px; text-align: center; animation: pop 0.3s ease; }
-@keyframes pop { from {transform: scale(0.8); opacity:0;} to {transform: scale(1); opacity:1;} }
-.popup button { margin-top: 20px; padding: 10px 25px; background: #22c55e; color: white; border: none; border-radius: 10px; font-weight: bold; }
-
-.footer { padding: 20px; font-size: 11px; color: #065f46; opacity: 0.6; }
+.footer { padding: 20px; font-size: 11px; color: #065f46; opacity: 0.6; text-align: center; }
 </style>
 </head>
 <body>
 
-<div class="hero">
+<div class="hero reveal reveal-left">
   <h1>VelvetCash</h1>
   <p>India's Next Big Earning Platform 💸</p>
 </div>
 
-<div class="launch-container">
-  <img src="launch.jpg" class="launch-img" alt="Launching 2027" onclick="showPopup('launch')">
+<div class="launch-container reveal reveal-right">
+  <img src="launch.jpg" class="launch-img" onclick="showPopup('launch')">
 </div>
 
 <div class="buttons-container">
-  <!-- Instagram Button -->
-  <a href="intent://instagram.com/_u/velvetcash_india/#Intent;package=com.instagram.android;scheme=https;end" class="btn btn-insta-flow">
+  <div class="btn btn-gmail reveal reveal-left" onclick="showPopup('email')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" class="gmail-icon-svg">
+    <span>Submit Your Email</span>
+  </div>
+
+  <div class="btn btn-whatsapp reveal reveal-right" onclick="showPopup('whatsapp')">
+    <svg class="wa-icon-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>WhatsApp Updates</span>
+  </div>
+
+  <a href="https://instagram.com/velvetcash_india" class="btn btn-insta-flow reveal reveal-left">
     <svg class="insta-logo-svg" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.919-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.583.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.073-4.948-.197-4.359-2.62-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
     <span>Follow on Instagram</span>
   </a>
 
-  <!-- Video Button -->
-  <div class="btn" onclick="toggleVideo()">📺 Watch Intro Video</div>
-  
-  <div class="btn" onclick="showPopup('about')">ℹ️ About App</div>
-  <div class="btn" onclick="showPopup('features')">✨ Features</div>
-  <div class="btn" onclick="showPopup('notify')">🔔 Notify Me</div>
+  <div class="btn btn-video-dark reveal reveal-right" onclick="toggleVideo()">▶ Watch Intro Video</div>
+  <div class="btn reveal reveal-left" onclick="showPopup('about')">ℹ️ About App</div>
+  <div class="btn reveal reveal-right" onclick="showPopup('features')">✨ Features</div>
 </div>
 
-<!-- Naya Video Section -->
-<div id="videoWrapper">
-  <video id="velvetVideo" class="video-frame" controls>
-    <source src="intro.mp4" type="video/mp4">
-  </video>
-</div>
+<div id="videoWrapper"><video id="velvetVideo" class="video-frame" controls><source src="intro.mp4" type="video/mp4"></video></div>
 
 <div class="features-grid">
-  <div class="feature-box">💰 Daily Rewards</div>
-  <div class="feature-box">📲 Instant Withdraw</div>
-  <div class="feature-box">🎮 Simple Tasks</div>
-  <div class="feature-box">🔥 Smooth UI</div>
+  <div class="feature-box reveal reveal-left">💰 Daily Rewards</div>
+  <div class="feature-box reveal reveal-right">📲 Instant Withdraw</div>
+  <div class="feature-box reveal reveal-left">🎮 Simple Tasks</div>
+  <div class="feature-box reveal reveal-right">🔥 Smooth UI</div>
 </div>
 
 <div class="footer">© 2026 VelvetCash. All rights reserved.</div>
@@ -146,27 +152,49 @@ body {
 <div id="popup" class="popup"><div class="popup-box" id="popupContent"></div></div>
 
 <script>
+// LAG-FREE SCROLL OBSERVER
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { 
+    if (e.isIntersecting) { e.target.classList.add('active'); } 
+    else { e.target.classList.remove('active'); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
 function toggleVideo() {
-  var wrapper = document.getElementById("videoWrapper");
-  var video = document.getElementById("velvetVideo");
-  if (wrapper.style.display === "none" || wrapper.style.display === "") {
-    wrapper.style.display = "block";
-    video.play();
-  } else {
-    wrapper.style.display = "none";
-    video.pause();
-  }
+  var w = document.getElementById("videoWrapper");
+  var v = document.getElementById("velvetVideo");
+  if (w.style.display === "none" || w.style.display === "") { w.style.display = "block"; v.play(); w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  else { w.style.display = "none"; v.pause(); }
 }
 
 function showPopup(type) {
   const content = document.getElementById("popupContent");
   const modal = document.getElementById("popup");
-  if(type === 'launch') content.innerHTML = "<h3>🚀 Launching!</h3><p>VelvetCash 2027 me dhamaka karega!</p><button onclick='closePopup()'>Ok!</button>";
-  else if(type === 'about') content.innerHTML = "<h3>ℹ️ About</h3><p>Ye app earning ke liye best hai.</p><button onclick='closePopup()'>Theek Hai</button>";
-  else if(type === 'features') content.innerHTML = "<h3>✨ Features</h3><p>Fast payments aur rewards.</p><button onclick='closePopup()'>Ok</button>";
-  else if(type === 'notify') content.innerHTML = "<h3>🔔 Notify</h3><p>Notification jald chalu honge.</p><button onclick='closePopup()'>Done</button>";
   modal.style.display = "flex";
+
+  if(type === 'email') {
+    content.innerHTML = `<h3>📧 Email Submit</h3><p>please enter your Email.</p><input type='email' placeholder='Example@gmail.com' id='inpVal'><button onclick="submitDone('email')">Submit Email</button><br><span class='close-link' onclick='closePopup()'>Cancel</span>`;
+  } else if(type === 'whatsapp') {
+    content.innerHTML = `<h3>✅ WhatsApp Updates</h3><p>Please enter your number</p><input type='number' placeholder='91XXXXXXXX' id='inpVal'><button onclick="submitDone('whatsapp')">Save Number</button><br><span class='close-link' onclick='closePopup()'>Cancel</span>`;
+  } else if(type === 'about') {
+    content.innerHTML = `<h3>ℹ️ About</h3><p>This app is best for earning.</p><button onclick='closePopup()'>Ok</button>`;
+  } else if(type === 'features') {
+    content.innerHTML = `<h3>✨ Features</h3><p>Fast payments and rewards.</p><button onclick='closePopup()'>Ok</button>`;
+  } else if(type === 'launch') {
+    content.innerHTML = `<h3>🚀 Launching!</h3><p>VelvetCash 2027 will make a blast</p><button onclick='closePopup()'>Ok!</button>`;
+  }
 }
+
+function submitDone(mode) {
+  const content = document.getElementById("popupContent");
+  if(mode === 'email') {
+    content.innerHTML = `<h3>✅ Submitted!</h3><p>Yes sir, Your email has been submitted. You will soon receive a message regarding the app launch.</p><button onclick='closePopup()'>Close Popup</button>`;
+  } else {
+    content.innerHTML = `<h3>✅ Received!</h3><p>Yes sir, your number has arrived on our app. You will soon receive a message regarding the launch.</p><button onclick='closePopup()'>Close Popup</button>`;
+  }
+}
+
 function closePopup() { document.getElementById("popup").style.display = "none"; }
 </script>
 
